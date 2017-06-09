@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=72QwzLvIzM9Y2NAGEpGa7ZSDf3iMTRGG"></script>
+    <title>给覆盖物添加右键菜单</title>
+    <script src="js/hammer.min.js"></script>
+</head>
+<body>
+<div><button onclick="add()">添加点位</button><button>编辑点位</button></div>
+<div id="allmap" style=""></div>
+</body>
+</html>
+<script type="text/javascript">
+    var hammertime = new Hammer(document.getElementById("allmap"));
+
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(116.404, 39.915);
+    map.centerAndZoom(point,15);
+
+    var removeMarker = function(e,ee,marker){
+        map.removeOverlay(marker);
+    };
+
+
+    //创建右键菜单
+   //var markerMenu=new BMap.ContextMenu();
+//    markerMenu.addItem(new BMap.MenuItem('删除',removeMarker.bind(marker)));
+
+
+   // 创建点
+    var arr = new Array();
+    function attribute(e){
+        var marker = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat));
+        var p = marker.getPosition();  //获取marker的位置
+        map.addOverlay(marker);
+        var test = function(){
+            console.log("test");
+        }
+        var markerMenu=new BMap.ContextMenu();
+        markerMenu.addItem(new BMap.MenuItem('删除',test.bind(marker)));
+        marker.addContextMenu(markerMenu);
+        var label = new BMap.Label("我是文字标注哦fggggg",{offset:new
+        BMap.Size(20,-10)});
+        marker.setLabel(label);
+        var markerMenu2=new BMap.ContextMenu();
+        markerMenu2.addItem(new BMap.MenuItem('删除',test.bind(label)));
+        label.addContextMenu(markerMenu2);
+    }
+
+
+    //var hammertime2 = new Hammer(document.getElementsByClassName("BMapLabel")[0]);
+    function add(){
+    map.addEventListener("click",attribute);}
+    function edit() {
+        map.removeEventListener("click", attribute);
+
+        for (var i = 0; i < json_data.length; i++) {
+            var marker = new BMap.Marker(new BMap.Point(json_data[i][0], json_data[i][1])); // 创建点
+            map.addOverlay(marker);    //增加点
+            pointArray[i] = new BMap.Point(json_data[i][0], json_data[i][1]);
+            marker.addEventListener("click", attribute);
+        }
+        //让所有点在视野范围内
+        map.setViewport(pointArray);
+        //获取覆盖物位置
+        function attribute(e) {
+            var p = e.target;
+            alert("marker的位置是" + p.getPosition().lng + "," + p.getPosition().lat);
+        }
+    }
+    //增加点
+//    hammertime.on('press', function(e) {
+//        console.log(e);
+//    });
+//    hammertime2.on('press', function(e) {
+//        console.log(222222);
+//    });
+</script>

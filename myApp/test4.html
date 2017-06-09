@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=72QwzLvIzM9Y2NAGEpGa7ZSDf3iMTRGG"></script>
+    <title>给覆盖物添加右键菜单</title>
+    <script src="js/hammer.min.js"></script>
+</head>
+<body style="position: relative">
+<div><button onclick="add()">添加点位</button><button onclick="edit()">编辑点位</button></div>
+<div id="allmap" style=""></div>
+<div id="test" style="display: none;position: absolute;left: 0;top:2em">
+    文字 <input type="text" value="" id="labelInput"><br>
+    <select   name="select" id="color">
+        <option   id="defaultColor" value=""   style="color:   white;background-color:#ffc0cb;"></option>
+        <option   value="red"   style="color:   white;background-color:   red;"></option>
+        <option   value="blue"   style="color:   yellow;background-color:   blue;"></option>
+        <option   value="green"   style="color:   black;background-color:   green;"></option>
+    </select>
+    颜色 <a href="javascript:void(0)">红色</a><a href="javascript:void(0)" >蓝色</a>
+    <button onclick="remove()">删除</button><button onclick="confirm()">确定</button>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    var hammertime = new Hammer(document.getElementById("allmap"));
+
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(116.404, 39.915);
+    map.centerAndZoom(point,15);
+
+    var removeMarker = function(e,ee,marker){
+        map.removeOverlay(marker);
+    };
+
+
+    //创建右键菜单
+    //var markerMenu=new BMap.ContextMenu();
+    //    markerMenu.addItem(new BMap.MenuItem('删除',removeMarker.bind(marker)));
+    Array.prototype.indexOf = function(val) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == val) return i;
+        }
+        return -1;
+    };
+    Array.prototype.remove = function(val) {
+        var index = this.indexOf(val);
+        if (index > -1) {
+            this.splice(index, 1);
+        }
+    };
+
+    // 创建点
+    var arr = new Array();
+    function attribute(e,point,context,color){
+        //var marker = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat));
+        var marker= new BMap.Marker(new BMap.Point(e.point.lng,e.point.lat), {
+            // 初始化五角星symbol
+            icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+                scale: 10,
+                fillColor: "pink",
+                fillOpacity: 1,
+                strokeColor:"pink"
+            })
+        });
+
+        arr.push(marker);
+        //console.log(circle)
+        var label = new BMap.Label("我是文字标注哦fggggg",{offset:new
+        BMap.Size(20,-10)});
+        arr[arr.length-1].setLabel(label);
+        arr[arr.length-1].enableDragging();
+        map.addOverlay(marker);
+        var test = function(e,ee,marker){
+            map.removeOverlay(marker);
+        }
+        var markerMenu=new BMap.ContextMenu();
+        markerMenu.addItem(new BMap.MenuItem('删除',test.bind(arr[arr.length-1])));
+        arr[arr.length-1].addContextMenu(markerMenu);
+    }
+    function attribute2(target,context,color){
+        console.log("target",target);
+        var marker= new BMap.Marker(new BMap.Point(target.point.lng,target.point.lat), {
+            // 初始化五角星symbol
+            icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+                scale: 10,
+                fillColor: color,
+                fillOpacity: 1,
+                strokeColor:color
+            })
+        });
+        arr.push(marker);
+        //console.log(circle)
+        var label = new BMap.Label(context,{offset:new
+        BMap.Size(20,-10)});
+        arr[arr.length-1].setLabel(label);
+        arr[arr.length-1].enableDragging();
+        map.addOverlay(marker);
+    }
+
+
+    //var hammertime2 = new Hammer(document.getElementsByClassName("BMapLabel")[0]);
+    function add(){
+        map.addEventListener("click",attribute);}
+    var target;
+    var newTarget;
+    function remove(){
+        map.removeOverlay(target);
+        console.log("remove")
+        document.getElementById("test").style.display="none";
+    }
+    function edit() {
+        map.removeEventListener("click", attribute);
+        for (var i = 0; i < arr.length; i++) {
+            arr[i].addEventListener("click", getP);
+        }
+        //让所有点在视野范围内
+        //map.setViewport(pointArray);
+        //获取覆盖物位置
+
+    }
+    function getP(e) {
+        var p = e.target;
+        console.log(p);
+        document.getElementById("test").style.display="block";
+        target=e.target;
+        document.getElementById("labelInput").value=p.getLabel().content;
+    }
+//    function confirm() {
+//        console.log(1,arr);
+//        attribute2(target,document.getElementById('labelInput').value,"blue");
+//        arr.remove(target);
+//        remove();
+//        console.log(2,arr);
+//        document.getElementById("test").style.display="none";
+//        edit();
+//    }
+    function confirm() {
+        map.removeEventListener("click", attribute);
+        console.log(1,arr);
+        var newcolor=document.getElementById('color').value;
+        console.log("newcolor",newcolor);
+        var newlabel = new BMap.Label(document.getElementById('labelInput').value,{offset:new
+        BMap.Size(20,-10)});
+        console.log("newlabel",newlabel);
+        map.removeOverlay(target.getLabel());
+        console.log(newcolor);
+        console.log("icon1",target.getIcon());
+        target.setIcon({icon:new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+            scale: 10,
+            fillColor: "blue",
+            fillOpacity: 1,
+            strokeColor:"blue"}
+        )
+        });
+        console.log("icon2",target.getIcon());
+        var target3=new BMap.Marker(new BMap.Point(target.point.lng,target.point.lat), {
+            // 初始化五角星symbol
+            icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+                scale: 10,
+                fillColor: newcolor,
+                fillOpacity: 1,
+                strokeColor:newcolor
+            })
+        });
+        target3.setLabel(newlabel);
+        arr.remove(target);
+        arr.push(target3);
+        remove();
+        console.log("label",target.getLabel());
+        map.addOverlay(target3);
+        document.getElementById("test").style.display="none";
+        map.removeEventListener("click", attribute);
+       target3.addEventListener("click", getP);
+
+
+    }
+    //增加点
+    //    hammertime.on('press', function(e) {
+    //        console.log(e);
+    //    });
+    //    hammertime2.on('press', function(e) {
+    //        console.log(222222);
+    //    });
+</script>

@@ -1,0 +1,19 @@
+var app = angular.module('myApp',['ionic']);
+app.controller('uploadCtrl',['$scope','$timeout',function($scope,$timeout){
+	console.log("upload")
+$scope.listA=[{name:"设备类型",data:"东南"},
+    {name:"设备数量",data:"8MM"},
+    {name:"镜头大小",data:"2"},
+    {name:"补光灯",data:"2"},
+    {name:"照闪灯",data:"2"},
+    {name:"立杆情况",data:"东南"},
+    {name:"立杆高度",data:"2"},
+    {name:"横臂长度",data:"2"},
+    {name:"经纬度",data:"2"},
+    {name:"接电位置",data:"东南"},
+    {name:"路灯电箱编号",data:"8MM"},
+    {name:"电缆长度",data:"2"},
+    {name:"通讯方式",data:"2"},
+    {name:"光缆长度",data:"2"}
+]
+}]);

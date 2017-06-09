@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css"/>
+    <link rel="stylesheet" type="text/css" href="css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="css/person.css"/>
+    <script src="js/ionic.bundle.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/other.css">
+</head>
+<body ng-controller="myCtrl">
+<!--头部-->
+<ion-header-bar align-title="middle" class="bar-positive" style="background-color: #19accd;border: 0">
+    <div class="buttons">
+        <button class="button ion-chevron-left button-clear button-dark" style="color: white"> 我</button>
+    </div>
+    <h1 class="title" style="font-size:2em">设置</h1>
+</ion-header-bar>
+<!--内容-->
+<ion-content>
+    <ion-list >
+        <ion-item class="item-icon-right" style="margin-top: 0.5em" href="#">
+            <span>更换头像</span><i class="icon ion-chevron-right"
+                                style="font-size: 1em;color:gray"></i>
+        </ion-item>
+
+        <ion-item class="item-icon-right" style="margin-top: 1em" href="#" >
+            <span>密码修改</span><i class="icon ion-chevron-right"
+                                style="font-size: 1em;color:gray"></i>
+        </ion-item>
+        <ion-item class="item-icon-right" style="" href="#" >
+            <span>清理缓存</span><i class="icon "
+                                style="font-size: 1em;color:#19ACCD"> 24.8M</i>
+        </ion-item>
+        <ion-item class="item-icon-right" style="margin-top: 1em" href="#">
+            <span>当前版本</span><i class="icon "
+                                style="font-size: 1em;color:gray"> V1.0</i>
+        </ion-item>
+
+
+    </ion-list>
+    <ion-list style="text-align: center;">
+        <button class="button button-calm" style="background-color: #19ACCD;width: 80%;margin-top: 3em">退出登录
+        </button>
+    </ion-list>
+
+</ion-content>
+<script src="js/my.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

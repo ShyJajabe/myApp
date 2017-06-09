@@ -1,0 +1,133 @@
+.null{
+	height: 20px;
+}
+/* 头部*/
+.top{
+	width: 100%;
+	height: 286px;
+}
+/* 头部上部分 */
+.header{
+	width: 100%;
+	height: 236px;
+	background: #62BBCA;
+	color: #FFFFFF;
+}
+
+/* 头部下部分 */
+.footer{
+	width: 100%;
+	height: 50px;
+	border-top: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
+}
+.footer div{
+	background: #FFFFFF;
+}
+/* tab按钮被点击时 */
+.footer div.on{
+	background: #F5FDFF;
+}
+/* 有有边框 */
+.hasRBoder{
+	border-right: 1px solid #DDDDDD;
+}
+.col-50{
+	width: 50%;
+	height: 100%;
+	padding: 5px;
+}
+.col-50 span{
+	display: block;
+	text-align: center;
+}
+.numSpan{
+	font-size: 1.5em;
+}
+.send,.save{
+	font-size: 1em;
+	color: #666666;
+}
+/* 项目列表 */
+
+.bar .p-items{
+	font-size: 1.2em;
+  background: transparent;
+  border: none;
+}
+.bar.bar-calm{
+	background: transparent;
+	border: none;
+}
+/*我  */
+.me{
+	text-align: center;
+	margin-top: 10px;
+}
+.me span{
+	font-size: 1.6em;
+}
+/* 头像 */
+.avator{
+	width: 92px;
+	height: 92px;
+	margin: 20px auto 10px;
+	border-radius: 50%;
+	background: #E2EEF1;
+}
+.account,.u-id{
+	text-align: center;
+	margin: 0;
+	letter-spacing: 1px;
+}
+.account span{
+	font-size: 1.3em;
+}
+/**/
+.save-item{
+	height: 113px;
+	margin-top: 15px;
+	background: #FFFFFF;
+	padding: 3px 13px;
+	color: #777;
+}
+.save-item dt,.save-item dd{
+	margin-bottom: 13px;
+}
+.save-item em{
+	display: inline-block;
+	width: 25px;
+	text-align: center;
+}
+.save-item b{
+	display: inline-block;
+	width: 20px;
+}
+.save-item em.ion-home{
+	color: #18ACCD;
+	font-size: 1.7em;
+
+}
+.button-send{
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0 12px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  vertical-align: top;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  line-height: 30px;
+  cursor: pointer;
+	width: 75px;
+	height: 32px;
+	background: #FF9C3E;
+	color: #FFFFFF;
+	font-family: "微软雅黑";
+	/*letter-spacing: 5px;*/
+	margin: 40px 10px 0 0;
+
+}

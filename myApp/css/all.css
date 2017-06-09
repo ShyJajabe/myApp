@@ -1,0 +1,57 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+html,body{
+	font-family: "微软雅黑";
+	color: #444;
+	background: #F3F3F3;
+	font-size:10px;
+}
+ul,li,dl,dt,dd,ol{
+	list-style: none;
+}
+a{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+@media all screen and (min-width: 320px) and (max-width: 360px) {
+	body,html{
+		font-size: 12px;
+	}
+}
+@media all screen and (min-width: 360px) {
+	body,html{
+		font-size: 14px;
+	}
+}
+/* 浮动 */
+.lf{
+	float: left;
+}
+.rt{
+	float: right;
+}
+.clear:after{
+	content: "";
+	display: table;
+	clear: both;
+}
+/* 防止外边距溢出 */
+.over:before{
+	content: "";
+	display: table;
+}
+/* 文本居中 */
+.center{
+	text-align:center;
+}
+/* 白色字体 */
+.white-font{
+	color: #FFFFFF;
+}
+/* 背景基本色 */
+.bag-base-color{
+	background-color: #19ACCD;
+}

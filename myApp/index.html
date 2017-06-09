@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css"/>
+    <link rel="stylesheet" type="text/css" href="css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="css/person.css"/>
+    <script src="js/ionic.bundle.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body ng-controller="myCtrl">
+	<ion-content>
+	<!-- 一、头部 -->
+	<div class="top">
+		<!-- 1、头部上部分 -->
+		<div class="header">
+			
+			<!-- 项目列表 -->
+			<ion-header-bar class="bar-calm bar bar-header">
+				<a class="button button-icon icon-left ion-chevron-left p-items">项目列表</a>
+				<button class="button button-icon ion-ios-gear-outline"></button>
+			</ion-header-bar>
+			<!-- 用户昵称/ID -->
+			<div class="over">
+				<!-- 我 -->
+				<p class="me"><span>我</span></p>
+				<!-- 头像 -->
+				<div class="avator">
+					
+				</div>
+				<!-- 用户昵称/ID -->
+				<p class="account"><span>用户昵称</span></p>
+				<p class="u-id"><span>ID：20170503</span></p>
+			</div>
+		</div>
+		<!-- 头部下部分 -->
+		
+		<div class="footer">
+			<div class="col-50 on lf hasRBoder">
+				<span class="numSpan">26</span>
+				<span class="save">我的保存</span>
+			</div>
+			<div class="col-50 lf">
+				<span class="numSpan">459</span>
+				<span class="send">我的上传</span>
+			</div>
+		</div>
+		
+	</div>
+	<!---->
+	<!-- 2、我的保存 -->
+	<div class="">
+		<div class="save-item" ng-repeat="tmp in data" ng-if="$index<$count">
+			<div class="lf">
+				<dl>
+				<dt><em class="icon ion-home"></em><span>{{tmp.addr}}</span></dt>
+				<dd><em class="icon ion-document-text"></em><span>点位名称 <b></b>{{tmp.name}}</span></dd>
+				<dd><em class="icon ion-android-time"></em><span>点位编号<b></b>{{tmp.num}}</span></dd>
+			</dl>
+			</div>
+			<div class="rt">
+				<button class="button-send">上传</button>
+			</div>
+		</div>
+	</div>
+	<!-- 上拉加载更多 -->
+  <ion-infinite-scroll
+    icon="ion-loading-c"
+     immediate-check="false"
+    on-infinite="loadMore()"
+    distance="1%">
+  </ion-infinite-scroll>
+  </ion-content>
+<script src="js/my.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

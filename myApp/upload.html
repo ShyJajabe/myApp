@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css"/>
+    <link rel="stylesheet" type="text/css" href="css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="css/person.css"/>
+    <script src="js/ionic.bundle.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/other.css">
+</head>
+
+<body ng-controller="uploadCtrl">
+<ion-header-bar align-title="middle" class="bar-positive" style="background-color: #19ACCD;border: 0">
+    <div class="buttons">
+        <button class="button ion-chevron-left button-clear button-dark" style="color: white"> 我</button>
+    </div>
+    <h1 class="title" style="font-size:2em">设置</h1>
+</ion-header-bar>
+<ion-content>
+    <ion-list >
+        <ion-item class="item-icon-right" style="margin-top: 0.5em" href="#">
+            <div style="float: left;width: 6em;margin-right: -6em">项目名称</div>
+            <div style="float: left;margin-left: 7em;word-break: break-all;padding-right: 1em;white-space:normal">
+                [012345]中华园派出所
+            </div>
+        </ion-item>
+
+        <ion-item class="item-icon-right" style="" href="#" >
+            <div style="float: left;width: 6em;margin-right: -6em">点位名称</div>
+            <div style="float: left;margin-left: 7em;word-break: break-all;padding-right: 1em;white-space:normal">
+                创业路嵩山路南
+            </div>
+        </ion-item>
+    </ion-list>
+
+    <ion-list  >
+        <div style="margin-top: 0.5em"></div>
+        <ion-item class="item-icon-right" href="#" ng-repeat="x in listA">
+            <span style="display:inline-block;width: 6em">{{x.name}}</span><span style="margin-left: 1em">{{x.data}}</span><i
+                class="icon ion-chevron-right" style="font-size: 1em;color:gray"></i>
+        </ion-item>
+
+        <div class="item clearfix">
+            <div style="float: left;width: 6em;margin-right: -6em">备注</div>
+            <div style="float: left;margin-left: 7em;word-break: break-all;padding-right: 1em">
+                <textarea name="" id="" cols="30" rows="5" placeholder="请输入..." style="resize: none;"></textarea>
+            </div>
+        </div>
+        <ion-item class="item-icon-right"  style="border-top:0">
+            <span style="display:inline-block;width: 6em"></span><span style="margin-left: 1em"></span><i class="icon"
+                                                                                                          style="font-size: 1em;color:gray">0/20</i>
+        </ion-item>
+    </ion-list>
+        <div class="list" style="padding-top: 1em">
+            <div class="container">
+                <!--    照片添加    -->
+                <div class="z_photo">
+                    <div class="z_file">
+                        <input type="file" name="file" id="file" value="" accept="image/*" multiple
+                               onchange="imgChange('z_photo','z_file');"/>
+
+                    </div>
+
+                </div>
+
+                <!--遮罩层-->
+                <div class="z_mask">
+                    <!--弹出框-->
+                    <div class="z_alert">
+                        <p>确定要删除这张图片吗？</p>
+                        <p>
+                            <span class="z_cancel">取消</span>
+                            <span class="z_sure">确定</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center">
+            <button class="button button-calm" style="width: 40%;margin: 2%">保存</button>
+            <button class="button" style="width: 40%;margin: 2%;background-color: lightgray;color: white">上传</button>
+        </div>
+</ion-content>
+<script src="js/uploadCtrl.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
+</html>
+<script type="text/javascript">
+    //px转换为rem
+    (function (doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if (clientWidth >= 640) {
+                    docEl.style.fontSize = '100px';
+                }
+                else {
+                    docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+                }
+            };
+
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+
+    function imgChange(obj1, obj2) {
+        //获取点击的文本框
+        var file = document.getElementById("file");
+        //存放图片的父级元素
+        var imgContainer = document.getElementsByClassName(obj1)[0];
+        //获取的图片文件
+        var fileList = file.files;
+        //文本框的父级元素
+        var input = document.getElementsByClassName(obj2)[0];
+        var imgArr = [];
+        //遍历获取到得图片文件
+        for (var i = 0; i < fileList.length; i++) {
+            var imgUrl = window.URL.createObjectURL(file.files[i]);
+            imgArr.push(imgUrl);
+            var img = document.createElement("img");
+            img.setAttribute("src", imgArr[i]);
+            var imgAdd = document.createElement("div");
+            imgAdd.setAttribute("class", "z_addImg");
+            imgAdd.appendChild(img);
+            imgContainer.appendChild(imgAdd);
+        }
+        ;
+        imgRemove();
+    };
+
+    function imgRemove() {
+        var imgList = document.getElementsByClassName("z_addImg");
+        var mask = document.getElementsByClassName("z_mask")[0];
+        var cancel = document.getElementsByClassName("z_cancel")[0];
+        var sure = document.getElementsByClassName("z_sure")[0];
+        for (var j = 0; j < imgList.length; j++) {
+            imgList[j].index = j;
+            imgList[j].onclick = function () {
+                var t = this;
+                mask.style.display = "block";
+                cancel.onclick = function () {
+                    mask.style.display = "none";
+                };
+                sure.onclick = function () {
+                    mask.style.display = "none";
+                    t.style.display = "none";
+                };
+
+            }
+        }
+        ;
+    };
+
+</script>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css"/>
+    <link rel="stylesheet" type="text/css" href="css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="css/person.css"/>
+    <script src="js/ionic.bundle.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/other.css">
+</head>
+<body ng-controller="myCtrl">
+
+<ion-header-bar align-title="middle" class="bar-positive" style="background-color: #19accd">
+    <div class="buttons">
+        <button class="button ion-chevron-left button-clear button-dark" style="color: white"> 我</button>
+    </div>
+    <h1 class="title" style="font-size:2em">设置</h1>
+</ion-header-bar>
+
+<ion-content>
+    <!-- 一、头部 -->
+    <!-- 1、头部上部分 -->
+    <!--<div class="" style="height: 44px">-->
+        <!--<div class="bar bar-header" style="background-color: #62BBCA">-->
+            <!--<button class="button button-clear ion-chevron-left" style="color: white"> 我-->
+
+            <!--</button>-->
+            <!--<div class="title" style="color: white">设置</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+
+
+    <!-- 上拉加载更多 -->
+    <ion-list>
+        <ion-item class="item-icon-right" >
+            <span>更换头像</span><i class="icon ion-chevron-right"
+                                style="font-size: 1em;color:gray"></i>
+        </ion-item>
+
+    </ion-list>
+    <div class="list">
+        <div class="item item-icon-right">
+            <span>密码修改</span><i class="icon ion-chevron-right"
+                                style="font-size: 1em;color:gray"></i>
+        </div>
+        <div class="item item-icon-right">
+            <span>清理缓存</span><i class="icon "
+                                style="font-size: 1em;color:#19ACCD"> 24.8M</i>
+        </div>
+    </div>
+    <div class="list">
+        <div class="item item-icon-right">
+            <span>当前版本</span><i class="icon "
+                                style="font-size: 1em;color:gray"> V1.0</i>
+        </div>
+
+    </div>
+
+    <div style="text-align: center">
+        <button class="button button-calm" style="background-color: #19ACCD;width: 80%">退出登录
+        </button>
+    </div>
+</ion-content>
+<script src="js/my.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
