@@ -1,0 +1,28 @@
+<div id="test2" style="display: none;position: absolute;left: 25%;top:25%" class="content has-header">
+    <div class="list">
+        <label class="item item-input">
+            <input type="text" placeholder="First Name" id="labelInput2">
+        </label>
+    </div>
+    <div class="item item-input item-select">
+        <div class="input-label">
+            颜色
+        </div>
+        <select id="color2" style="background-color: pink" onchange="changeColor()">
+            <option class="color" id="defaultColor2" value="pink"
+                    style="color:   white;background-color:#FFC0CB;">pink
+            </option>
+            <option value="red" selected style="color:   white;background-color:   red;">red</option>
+            <option value="blue" style="color:   yellow;background-color:   blue;">blue</option>
+            <option value="green" style="color:   black;background-color:   green;">green
+            </option>
+        </select>
+    </div>
+    <!--<div class="padding">-->
+    <!--<button class="button button-calm" style="width: 100%" onclick="createPoint()">确定-->
+    <!--</button>-->
+    <button class="button button-stable" onclick="cancel()">取消</button>
+    <button class="button button-calm"
+            onclick="createPoint()">确定
+    </button>
+</div>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css"/>
+    <link rel="stylesheet" type="text/css" href="css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="css/person.css"/>
+    <script src="js/ionic.bundle.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/other.css">
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+
+        #allmap {
+            width: 100%;
+            height: 30em
+        }
+
+        #r-result {
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/api?v=2.0&ak=72QwzLvIzM9Y2NAGEpGa7ZSDf3iMTRGG"></script>
+    <script src="js/mapCtrl.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+
+</head>
+<body ng-controller="mapCtrl" style="position: relative">
+<div style="width: 100%;height: 100%;position: relative">
+    <div style="margin-top: 0">
+        <button onclick="add()" class="button button-full button-light icon ion-plus"
+                style="width: 50%;float: left;margin-top: 0;margin-bottom: 0">添加点位
+        </button>
+        <button onclick="edit()" class="button button-full button-light icon ion-edit"
+                style="width: 50%;float: left;margin-top: 0;margin-bottom: 0">编辑点位
+        </button>
+    </div>
+    <div id="allmap" style="width: 100%;height: 100%">
+    </div>
+
+</div>
+<div id="test2"
+     style="display: none;position: absolute;width: 100%;height: 100%;background: rgba(52, 52, 52, 0.5);z-index: 99;top:0"
+     class="content has-header">
+
+    <div style="border-radius: 5px;width: 90%;background-color: white;margin: 10em auto;">
+        <div class="" style="text-align: right">
+            <a class="button button-icon icon ion-ios-close-outline" style="color:gray;" onclick="cancel()"></a>
+        </div>
+        <div style="background-color: gray;margin:0 auto;width: 95%">
+            <div class="list" style="width: 90%;margin: 0 auto;padding-top: 2em">
+                <label class="item item-input">
+                    <input type="text" placeholder="请输入标签" id="labelInput2">
+                </label>
+            </div>
+            <div style="width: 90%;margin:1em auto;padding: 1em 0">
+                <div style="display: inline-block;border-right: 1px solid whitesmoke">
+                    <div
+                            style="display: inline-block;border-radius: 1em;width: 2em;height: 2em;background-color: red;margin-right: 1em"
+                            class="circle"></div>
+                    <span
+                            style="font-size: 2.7em;color: whitesmoke;font-family:'Times New Roman';display: inline-block;margin-right: 1em ">T</span>
+                </div>
+                <ul
+                        style="display: inline-block;padding-left: 1em" class="colorBar">
+                    <li
+                            style="float: left;background-color: red;width: 2.5em;height: 0.7em;margin: 0;padding: 0;border: 0;position: relative"
+                            onclick="getColor(this)"><span class="testColor_red"></span></li>
+                    <li
+                            style="float: left;background-color: blue;width: 2.5em;height: 0.7em;margin: 0;padding: 0;border: 0;position: relative"
+                            onclick="getColor(this)"><span></span></li>
+                    <li
+                            style="float: left;background-color: green;width: 2.5em;height: 0.7em;margin: 0;padding: 0;border: 0"></li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center;padding: 1em 0">
+            <button class="button button-calm" style="width: 90%" onclick="createPoint()">确定
+            </button>
+            <!--<button class="button button-calm"-->
+            <!--onclick="createPoint()">确定-->
+            <!--</button>--></div>
+    </div>
+</div>
+<div id="test"
+     style="display: none;position: absolute;width: 100%;height: 100%;background: rgba(52, 52, 52, 0.5);z-index: 99;top:0"
+     class="content has-header">
+
+    <div style="border-radius: 5px;width: 90%;background-color: white;margin: 10em auto;">
+        <div class="" style="text-align: right">
+            <a class="button button-icon icon ion-ios-close-outline" style="color:gray;" onclick="cancel()"></a>
+        </div>
+        <div style="background-color: gray;margin:0 auto;width: 95%">
+            <div class="list" style="width: 90%;margin: 0 auto;padding-top: 2em">
+                <label class="item item-input">
+                    <input type="text" placeholder="请输入标签" id="labelInput">
+                </label>
+            </div>
+            <div style="width: 90%;margin:1em auto;padding: 1em 0">
+                <div style="display: inline-block;border-right: 1px solid whitesmoke">
+                    <div
+                            style="display: inline-block;border-radius: 1em;width: 2em;height: 2em;background-color: red;margin-right: 1em"
+                            class="circle2"></div>
+                    <span
+                            style="font-size: 2.7em;color: whitesmoke;font-family:'Times New Roman';display: inline-block;margin-right: 1em ">T</span>
+                </div>
+                <ul
+                        style="display: inline-block;padding-left: 1em" class="colorBar">
+                    <li
+                            style="float: left;background-color: red;width: 2.5em;height: 0.7em;margin: 0;padding: 0;border: 0;position: relative"
+                            onclick="getColor(this)"><span class="testColor_red"></span></li>
+                    <li
+                            style="float: left;background-color: blue;width: 2.5em;height: 0.7em;margin: 0;padding: 0;border: 0;position: relative"
+                            onclick="getColor(this)"><span></span></li>
+                    <li
+                            style="float: left;background-color: green;width: 2.5em;height: 0.7em;margin: 0;padding: 0;border: 0"></li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center;padding: 1em 0">
+            <button class="button button-stable" onclick="remove()">删除</button>
+            <button class="button button-calm"
+            onclick="confirm()">确定
+            </button>
+            <!--<button class="button button-calm"-->
+            <!--onclick="createPoint()">确定-->
+            <!--</button>--></div>
+    </div>
+</div>
+<!--<div id="test" style="display: none;position: absolute;left: 25%;top:25%" class="content has-header">-->
+    <!--<div class="list">-->
+        <!--<label class="item item-input">-->
+            <!--<input type="text" placeholder="First Name" id="labelInput">-->
+        <!--</label>-->
+    <!--</div>-->
+    <!--<div class="item item-input item-select">-->
+        <!--<div class="input-label">-->
+            <!--颜色-->
+        <!--</div>-->
+        <!--<select id="color" style="background-color: pink">-->
+            <!--<option class="color" id="defaultColor" value="pink"-->
+                    <!--style="color:   white;background-color:#FFC0CB;">pink-->
+            <!--</option>-->
+            <!--<option value="red" style="color:   white;background-color:   red;">red</option>-->
+            <!--<option value="blue" style="color:   yellow;background-color:   blue;">blue</option>-->
+            <!--<option value="green" style="color:   black;background-color:   green;">green-->
+            <!--</option>-->
+        <!--</select>-->
+    <!--</div>-->
+    <!--<div class="padding">-->
+        <!--<button class="button button-stable" onclick="remove()">删除</button>-->
+        <!--<button class="button button-calm"-->
+                <!--onclick="confirm()">确定-->
+        <!--</button>-->
+    <!--</div>-->
+
+<!--</div>-->
+<ion-footer-bar align-title="left" style="background-color: white;: 0">
+    <button class="button button-full button-light "
+            style="width: 50%;float: left;margin-top: 0;margin-bottom: 0"><i class="icon ion-image "
+                                                                             style="color: #0A9DC7 "></i> 截图
+    </button>
+    <button class="button button-full button-light"
+            style="width: 50%;float: left;margin-top: 0;margin-bottom: 0"><i class="icon ion-android-camera "
+                                                                             style="color: #0A9DC7 "></i> 拍照
+    </button>
+</ion-footer-bar>
+
+</body>
+</html>
+<script type="text/javascript">
+    //document.getElementById("color").addEventListener("change", changeColor);
+    var arr = new Array();
+    var newlng;
+    var newlat;
+    var target;
+    var newTarget;
+    var currentColor = "red";
+    // 百度地图API功能
+
+    function getColor(e) {
+        var selectedColor = e.style.backgroundColor;
+        $(e).children().addClass('testColor_' + selectedColor);
+        $(e).siblings().children().removeClass();
+        $(".circle")[0].style.backgroundColor = selectedColor;
+        $(".circle2")[0].style.backgroundColor = selectedColor;
+        currentColor = selectedColor;
+    }
+    var map = new BMap.Map("allmap", {enableMapClick: false});
+    var point = new BMap.Point(116.404, 39.915);
+    map.centerAndZoom(point, 15);
+    map.enableScrollWheelZoom(true);
+    var removeMarker = function (e, ee, marker) {
+        map.removeOverlay(marker);
+    };
+
+    function changeColor(e) {
+        console.log("change");
+        document.getElementById("color").style.backgroundColor = document.getElementById("color").options[document.getElementById("color").options.selectedIndex].style.backgroundColor;
+        document.getElementById("color2").style.backgroundColor = document.getElementById("color2").options[document.getElementById("color2").options.selectedIndex].style.backgroundColor;
+
+    }
+    Array.prototype.indexOf = function (val) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == val) return i;
+        }
+        return -1;
+    };
+    Array.prototype.remove = function (val) {
+        var index = this.indexOf(val);
+        if (index > -1) {
+            this.splice(index, 1);
+        }
+    };
+    function setSelectChecked(selectId, checkValue) {
+        var select = document.getElementById(selectId);
+        for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].style.backgroundColor == checkValue) {
+                select.options[i].selected = true;
+                break;
+            }
+        }
+    }
+    // 创建点
+
+    function attribute(e, point, context, color) {
+        document.getElementById("test2").style.display = "block";
+        newlng = e.point.lng;
+        newlat = e.point.lat;
+        document.getElementById('labelInput2').value = ""
+
+    }
+    function cancel() {
+        document.getElementById("test2").style.display = "none";
+        document.getElementById("test").style.display = "none";
+    }
+    function createPoint() {
+        var newcolor =  $(".circle")[0].style.backgroundColor;
+        var marker = new BMap.Marker(new BMap.Point(newlng, newlat), {
+            // 初始化五角星symbol
+            icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+                scale: 10,
+                fillColor: newcolor,
+                fillOpacity: 1,
+                strokeColor: newcolor
+            })
+        });
+
+        var newlabel = new BMap.Label(document.getElementById('labelInput2').value, {
+            offset: new
+            BMap.Size(20, -10)
+        });
+        newlabel.setStyle({color: newcolor, border: "0", fontWeight: "bold"});
+        marker.setLabel(newlabel);
+        marker.enableDragging();
+        map.addOverlay(marker);
+        arr.push(marker);
+        currentColor = "red";
+        document.getElementById("test2").style.display = "none";
+    }
+
+    function add() {
+        map.addEventListener("click", attribute);
+
+        for (var i = 0; i < arr.length; i++) {
+            arr[i].removeEventListener("click", getP);
+            arr[i].enableDragging();
+        }
+    }
+
+    function remove() {
+        map.removeOverlay(target);
+        console.log("remove");
+        document.getElementById("test").style.display = "none";
+    }
+    function edit() {
+        map.removeEventListener("click", attribute);
+        for (var i = 0; i < arr.length; i++) {
+            arr[i].removeEventListener("click", attribute);
+            arr[i].addEventListener("click", getP);
+        }
+
+        //让所有点在视野范围内
+        //map.setViewport(pointArray);
+        //获取覆盖物位置
+    }
+    function getP(e) {
+
+
+       //setSelectChecked("color", e.target.getIcon().style.fillColor);
+       // document.getElementById("color").style.backgroundColor =
+            //document.getElementById("color").options[document.getElementById("color").options.selectedIndex].style.backgroundColor;
+        document.getElementById("test").style.display = "block";
+        target = e.target;
+        map.removeEventListener("click", attribute);
+        document.getElementById("labelInput").value = target.getLabel().content;
+
+        var selectedColor = e.target.getIcon().style.fillColor;
+        console.log(selectedColor);
+        $(".circle2")[0].style.backgroundColor==selectedColor;
+        console.log();
+        $(".colorBar li").each(function(){
+            console.log($(this).css("backgroundColor"))
+           if($(this).css("backgroundColor")==$(".circle2").css("backgroundColor")){
+               console.log($(this).css("backgroundColor"))
+               $(this).children().addClass('testColor_' + selectedColor);
+               $(this).siblings().children().removeClass();
+               $(".circle2")[0].style.backgroundColor = selectedColor;
+               console.log($(".circle2")[0].style.backgroundColor)
+
+        }
+        });
+    }
+
+    function confirm() {
+        map.removeEventListener("click", attribute);
+        //var newcolor = document.getElementById('color').value;
+        var newcolor=$(".circle2").css("backgroundColor");
+        var newlabel = new BMap.Label(document.getElementById('labelInput').value, {
+            offset: new
+            BMap.Size(20, -10)
+        });
+        map.removeOverlay(target.getLabel());
+        var target3 = new BMap.Marker(new BMap.Point(target.point.lng, target.point.lat), {
+            // 初始化五角星symbol
+            icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+                scale: 10,
+                fillColor: newcolor,
+                fillOpacity: 1,
+                strokeColor: newcolor
+            })
+        });
+        newlabel.setStyle({color: newcolor, border: "0", fontWeight: "bold"});
+        target3.setLabel(newlabel);
+        target3.enableDragging();
+        arr.remove(target);
+        arr.push(target3);
+        remove();
+        map.addOverlay(target3);
+        document.getElementById("test").style.display = "none";
+        map.removeEventListener("click", attribute);
+        target3.addEventListener("click", getP);
+    }
+
+
+</script>

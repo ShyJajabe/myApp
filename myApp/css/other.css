@@ -1,6 +1,12 @@
 .clearfix{overflow:auto;_height:1%}
 *{color: #4c4c4c;
 }
+.bar.header1{
+    background-color: #19accd;border: 0
+}
+.bar.bar-positive .title.font1{
+    font-size:2em;
+}
 .container {
             width: 100%;
             height: 100%;
@@ -99,3 +105,26 @@ height: 100%;
         .z_cancel {
             border-right: 1px solid #ddd;
         }
+/*ssssss*/
+.testColor_red::after {
+    content: " ";
+    background-color: red;
+    position: absolute;
+    left: 50%;
+    top: -100%;
+    width: 1.2em;
+    height: 2em;
+    margin-left: -0.6em;
+    border: 0.1em solid white;
+    border-radius: 0.5em;}
+.testColor_blue::after {
+    content: " ";
+    background-color: blue;
+    position: absolute;
+    left: 50%;
+    top: -100%;
+    width: 1.2em;
+    height: 2em;
+    margin-left: -0.6em;
+    border: 0.1em solid white;
+    border-radius: 0.5em;}
