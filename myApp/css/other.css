@@ -1,4 +1,19 @@
 .clearfix{overflow:auto;_height:1%}
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-family: "微软雅黑";
+}
+
+#allmap {
+    width: 100%;
+    height: 30em
+}
+
+#r-result {
+    width: 100%;
+}
 *{color: #4c4c4c;
 }
 .bar.header1{

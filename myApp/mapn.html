@@ -10,21 +10,7 @@
     <script src="js/ionic.bundle.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="css/other.css">
     <style type="text/css">
-        body, html {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            font-family: "微软雅黑";
-        }
 
-        #allmap {
-            width: 100%;
-            height: 30em
-        }
-
-        #r-result {
-            width: 100%;
-        }
     </style>
     <script type="text/javascript"
             src="http://api.map.baidu.com/api?v=2.0&ak=72QwzLvIzM9Y2NAGEpGa7ZSDf3iMTRGG"></script>
@@ -235,13 +221,17 @@
         newlng = e.point.lng;
         newlat = e.point.lat;
         document.getElementById('labelInput2').value = ""
+        console.log("attribute");
 
     }
     function cancel() {
         document.getElementById("test2").style.display = "none";
         document.getElementById("test").style.display = "none";
+
+        console.log("cancel");
     }
     function createPoint() {
+        console.log("createPoint");
         var newcolor =  $(".circle")[0].style.backgroundColor;
         var marker = new BMap.Marker(new BMap.Point(newlng, newlat), {
             // 初始化五角星symbol
@@ -267,6 +257,7 @@
     }
 
     function add() {
+        console.log("add");
         map.addEventListener("click", attribute);
 
         for (var i = 0; i < arr.length; i++) {
@@ -281,6 +272,7 @@
         document.getElementById("test").style.display = "none";
     }
     function edit() {
+        console.log("edit");
         map.removeEventListener("click", attribute);
         for (var i = 0; i < arr.length; i++) {
             arr[i].removeEventListener("click", attribute);
@@ -292,7 +284,7 @@
         //获取覆盖物位置
     }
     function getP(e) {
-
+        console.log("getp");
 
        //setSelectChecked("color", e.target.getIcon().style.fillColor);
        // document.getElementById("color").style.backgroundColor =
@@ -303,23 +295,24 @@
         document.getElementById("labelInput").value = target.getLabel().content;
 
         var selectedColor = e.target.getIcon().style.fillColor;
-        console.log(selectedColor);
+
         $(".circle2")[0].style.backgroundColor==selectedColor;
-        console.log();
+
         $(".colorBar li").each(function(){
-            console.log($(this).css("backgroundColor"))
+
            if($(this).css("backgroundColor")==$(".circle2").css("backgroundColor")){
-               console.log($(this).css("backgroundColor"))
+
                $(this).children().addClass('testColor_' + selectedColor);
                $(this).siblings().children().removeClass();
                $(".circle2")[0].style.backgroundColor = selectedColor;
-               console.log($(".circle2")[0].style.backgroundColor)
+
 
         }
         });
     }
 
     function confirm() {
+        console.log("confirm");
         map.removeEventListener("click", attribute);
         //var newcolor = document.getElementById('color').value;
         var newcolor=$(".circle2").css("backgroundColor");
