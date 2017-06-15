@@ -109,9 +109,9 @@
                     <li
                             style="float: left;background-color: #FFFFFF;width: 2.5em;height: 0.7em;margin: 0;padding:
                             0;border: 0;position: relative;border-top-left-radius: 0.5em;border-bottom-left-radius:
-                            0.5em;" onclick="changeColor(this)"><span></span></li>
-                    <li onclick="changeColor(this)"
-                            style="float: left;background-color:#F53D1B;width: 2.5em;height: 0.7em;margin: 0;padding: 0;border: 0;position: relative"
+                            0.5em;" ><span></span></li>
+                    <li
+                        style="float: left;background-color:#F53D1B;width: 2.5em;height: 0.7em;margin: 0;padding: 0;border: 0;position: relative"
                     ><span class="testColor_red"></span></li>
                     <li
                             style="float: left;background-color:#FEEB0C;width: 2.5em;height: 0.7em;margin: 0;padding: 0;border: 0;position: relative">
@@ -130,7 +130,7 @@
             </div>
         </div>
         <div style="text-align: center;padding: 1em 0">
-            <button class="button button-calm" style="width: 90%" id="create3" onclick="confirm()">确定
+            <button class="button button-calm" style="width: 90%" id="create3">确定
             </button>
             <!--<button class="button button-calm"-->
             <!--onclick="createPoint()">确定-->
@@ -185,8 +185,9 @@
 </div>
 <ion-footer-bar align-title="left" style="background-color: white;: 0">
     <button class="button button-full button-light "
-            style="width: 50%;float: left;margin-top: 0;margin-bottom: 0" onclick="screenshot()"><i class="icon ion-image "
-                                                                             style="color: #0A9DC7 "></i> 截图
+            style="width: 50%;float: left;margin-top: 0;margin-bottom: 0" onclick="screenshot()"><i
+            class="icon ion-image "
+            style="color: #0A9DC7 "></i> 截图
     </button>
     <button class="button button-full button-light"
             style="width: 50%;float: left;margin-top: 0;margin-bottom: 0"><i class="icon ion-android-camera "
@@ -198,111 +199,212 @@
 </html>
 <script type="text/javascript">
 
-    var map = new BMap.Map("allmap", {enableMapClick: false});
+    //创建大地图
+    var map1 = new BMap.Map("allmap", {enableMapClick: false});
     var point = new BMap.Point(116.404, 39.915);
-    map.centerAndZoom(point, 15);
-    map.enableScrollWheelZoom(true);
-    map.addEventListener('click', showBox1);
-    map.addEventListener("tilesloaded", function () {
+    map1.centerAndZoom(point, 15);
+    map1.enableScrollWheelZoom(true);
+    map1.addEventListener("tilesloaded", function () {
         document.getElementById("loading").innerText = "地图加载完成";
         setTimeout(function () {
             document.getElementById("loading").style.display = "none";
         }, 1000);
-        console.log('over', map.getOverlays());
-        //map.addEventListener('click', showBox1);
+        console.log("地图加载完成");
+        console.log('over', map1.getOverlays());
+        console.log('overlength', map1.getOverlays().length);
     });
-    var marker, lng, lat,color='red';
+    map1.addEventListener('click', showBox1);
     function showBox1(e) {
-        if (map.getOverlays().length > 0)
-            console.log('getOverlays',map.getOverlays());
-        else {
-            //document.getElementById("test2").style.display = "block";
-            lng = e.point.lng;
-            lat = e.point.lat;
-            //createMarker();
-            console.log('else');
+
+        if (map1.getOverlays().length === 0) {
+            console.log("length==0");
+            console.log(e.point);
+            document.getElementById("labelInput3").value="";
+            document.getElementById("test3").style.display = "block";
+            var map2 = new BMap.Map("allmap2", {enableMapClick: false});
+            var point2 = new BMap.Point(e.point.lng, e.point.lat);
+            map2.centerAndZoom(point2, 15);
+            map2.enableScrollWheelZoom(false);
+            map2.disableDragging();
+
+            var color = 'red';
+            var words = "";
+            var marker = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat), {
+                icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+                    scale: 10,
+                    fillColor: color,
+                    fillOpacity: 1,
+                    strokeColor: color
+                })
+            });
+            var label = new BMap.Label(words, {
+                offset: new
+                BMap.Size(20, -10)
+            });
+            label.setStyle({color: color, border: "0", fontWeight: "bold"});
+            marker.setLabel(label);
+            console.log('marker', marker)
+            map2.addOverlay(marker);
+            console.log(map2.getOverlays());
+            document.getElementById("labelInput3").addEventListener('keyup',print);
+            function print(){
+                var words=document.getElementById("labelInput3").value;
+                map2.getOverlays()[0].getLabel().setContent(words);
+            }
+            document.getElementById('create3').addEventListener('click', confirm);
+
+            $(".colorBar li").bind('click',changeColor);
+            function changeColor(){
+
+                var marker = new BMap.Marker(new BMap.Point(map2.getOverlays()[0].point.lng, map2.getOverlays()[0].point.lat), {
+                    icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+                        scale: 10,
+                        fillColor: this.style.backgroundColor,
+                        fillOpacity: 1,
+                        strokeColor: this.style.backgroundColor
+                    })
+                });
+                var label = new BMap.Label(map2.getOverlays()[0].getLabel().content, {
+                    offset: new
+                    BMap.Size(20, -10)
+                });
+                label.setStyle({color: this.style.backgroundColor, border: "0", fontWeight: "bold"});
+                marker.setLabel(label);
+                marker.enableDragging();
+                map2.clearOverlays();
+                map2.addOverlay(marker);
+
+//                map2.getOverlays()[0].getLabel().setStyle({color:  this.style.backgroundColor});
+//                console.log('colorbar',this.style.backgroundColor);
+                $(".circle").css('background-color',this.style.backgroundColor);
+
+            }
+            function confirm() {
+                console.log("showbox")
+                closeBox3();
+
+                var marker = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat), {
+                    icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+                        scale: 10,
+                        fillColor: $(".circle").css('background-color'),
+                        fillOpacity: 1,
+                        strokeColor: $(".circle").css('background-color')
+                    })
+                });
+                var label = new BMap.Label(map2.getOverlays()[0].getLabel().content, {
+                    offset: new
+                    BMap.Size(20, -10)
+                });
+                label.setStyle({color: $(".circle").css('background-color'), border: "0", fontWeight: "bold"});
+                marker.setLabel(label);
+                marker.enableDragging();
+                map1.clearOverlays();
+                map1.addOverlay(marker);
+            }
+
+            return map2.getOverlays();
+
         }
+
     }
-    function closeBox1() {
-        document.getElementById("test2").style.display = "none";
-    }
+    /**
+     * 关闭截图窗口
+     */
     function closeBox3() {
         document.getElementById("test3").style.display = "none";
     }
-    function initMarker(lng,lat,color,words,mapc){
-        var marker1 = new BMap.Marker(new BMap.Point(lng, lat), {
-            icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
-                scale: 10,
-                fillColor: color,
-                fillOpacity: 1,
-                strokeColor: color
-            })
-        });
-        marker1.enableDragging();
-        var label = new BMap.Label(words, {
-            offset: new
-            BMap.Size(20, -10)
-        });
-        label.setStyle({color: color, border: "0", fontWeight: "bold"});
-        marker1.setLabel(label);
-        marker=marker1;
-        mapc.addOverlay(marker1);
-
-    }
-    function createMarker() {
-        var newcolor='red'
-//        var marker = new BMap.Marker(new BMap.Point(lng, lat), {
-//            icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
-//                scale: 10,
-//                fillColor: newcolor,
-//                fillOpacity: 1,
-//                strokeColor: newcolor
-//            })
-//        });
-//        marker.enableDragging();
-        var labelInput = document.getElementById('labelInput2').value;
-//        var label = new BMap.Label(labelInput, {
-//            offset: new
-//            BMap.Size(20, -10)
-//        });
-//        label.setStyle({color: newcolor, border: "0", fontWeight: "bold"});
-//        marker.setLabel(label);
-//        map.addOverlay(marker);
-        //initMarker(lng, lat,"red",'',map);
-        map.removeEventListener('click', showBox1);
-        closeBox1();
-        screenshot();
-    }
-    function screenshot(){
-        document.getElementById("test3").style.display = "block";
-        map2 = new BMap.Map("allmap2", {enableMapClick: false});
-        if(map.getOverlays().length>0){
-            var point2 = new BMap.Point(marker.point.lng, marker.point.lat);
-        }
-        else
-            var point2 = new BMap.Point(lng, lat);
-        //var point2 = new BMap.Point(marker.point.lng, marker.point.lat);
-        map2.centerAndZoom(point2, 15);
-        map2.enableScrollWheelZoom(true);
-        console.log(marker);
-        var marker2=marker;
-        if(map.getOverlays().length>0){
-            initMarker(marker.point.lng, marker.point.lat,'red','',map2);
-            console.log('>0')
-        }else
+    function screenshot() {
+        console.log('map1over',map1.getOverlays())
         {
-        initMarker(lng, lat,'red','',map2);}
-        console.log("map2",map2.getOverlays());
+            var a=map1.getOverlays()[0];
+            console.log("length>0", map1.getOverlays().length, map1.getOverlays());
+            //console.log(e.point);
+            document.getElementById("test3").style.display = "block";
+            document.getElementById("labelInput3").value=map1.getOverlays()[0].getLabel().content;
+            var map3 = new BMap.Map("allmap2", {enableMapClick: false});
+            var point3 = new BMap.Point(a.point.lng, a.point.lat);
+            map3.centerAndZoom(point3, 15);
+            map3.enableScrollWheelZoom(false);
+            map3.disableDragging();
+            console.log('a',a.getIcon().style.fillColor)
+            var color = a.getIcon().style.fillColor;
+            var words = 'test';
+            var marker3 = new BMap.Marker(new BMap.Point(a.point.lng, a.point.lat), {
+                icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+                    scale: 10,
+                    fillColor: color,
+                    fillOpacity: 1,
+                    strokeColor: color
+                })
+            });
+            var label3 = new BMap.Label(map1.getOverlays()[0].getLabel().content, {
+                offset: new
+                BMap.Size(20, -10)
+            });
+            label3.setStyle({color: color, border: "0", fontWeight: "bold"});
+            marker3.setLabel(label3);
+            console.log('marker3', marker3)
+            map3.addOverlay(marker3);
+            console.log(map3.getOverlays());
+            document.getElementById('create3').addEventListener('click', confirm2);
+            document.getElementById("labelInput3").addEventListener('keyup',print);
+            function print(){
+                var words=document.getElementById("labelInput3").value;
+                map3.getOverlays()[0].getLabel().setContent(words);
+            }
+            $(".colorBar li").bind('click',changeColor);
+            function changeColor(){
+                var color = map3.getOverlays()[0].getIcon().style.fillColor;
+                var marker = new BMap.Marker(new BMap.Point(map3.getOverlays()[0].point.lng,
+                    map3.getOverlays()[0].point.lat), {
+                    icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+                        scale: 10,
+                        fillColor: this.style.backgroundColor,
+                        fillOpacity: 1,
+                        strokeColor: this.style.backgroundColor
+                    })
+                });
+                var label = new BMap.Label(map3.getOverlays()[0].getLabel().content, {
+                    offset: new
+                    BMap.Size(20, -10)
+                });
+                label.setStyle({color: this.style.backgroundColor, border: "0", fontWeight: "bold"});
+                marker.setLabel(label);
+                marker.enableDragging();
+                map3.clearOverlays();
+                map3.addOverlay(marker);
 
+//                map2.getOverlays()[0].getLabel().setStyle({color:  this.style.backgroundColor});
+//                console.log('colorbar',this.style.backgroundColor);
+                $(".circle").css('background-color',this.style.backgroundColor);
+
+            }
+            //map.getOverlays()[0].getLabel().setContent("hahah");
+            function confirm2() {
+                console.log("confirm2")
+                closeBox3();
+                var color = map3.getOverlays()[0].getIcon().style.fillColor;
+                console.log( map1.getOverlays())
+                var marker = new BMap.Marker(new BMap.Point(map3.getOverlays()[0].point.lng, map3.getOverlays()[0].point.lat), {
+                    icon: new BMap.Symbol(BMap_Symbol_SHAPE_CIRCLE, {
+                        scale: 10,
+                        fillColor: color,
+                        fillOpacity: 1,
+                        strokeColor: color
+                    })
+                });
+                var label = new BMap.Label(map3.getOverlays()[0].getLabel().content, {
+                    offset: new
+                    BMap.Size(20, -10)
+                });
+                label.setStyle({color: color, border: "0", fontWeight: "bold"});
+                marker.setLabel(label);
+                marker.enableDragging();
+                map1.clearOverlays();
+                map1.addOverlay(marker);
+            }
+        }
     }
-    function confirm(){
-        var labelInput = document.getElementById('labelInput3').value;
-        map2.getOverlays();
-        map.clearOverlays();
-        map2.clearOverlays();
-        initMarker(lng, lat,'red',labelInput,map);
-        console.log('confirm');
-        document.getElementById("test3").style.display = "none";
-    }
+
 
 </script>
